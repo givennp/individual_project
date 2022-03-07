@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box, Center, Container } from "@chakra-ui/react";
+import HomePage from "./pages/home";
+import style from "./App.css"
+import ProfilePage from "./pages/profile"
+import NavBar from "./components/Navbar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box paddingX="16">
+      <BrowserRouter>
+        <NavBar />
+        <Center>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            {/* <Route path="/contentDetail" element={<ContentDetailPage />} /> */}
+          </Routes>
+        </Center>
+      </BrowserRouter>
+    </Box>
   );
 }
 
