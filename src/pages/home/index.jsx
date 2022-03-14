@@ -8,10 +8,13 @@ import NavBar from "../../components/Navbar";
 
 const HomePage = () => {
   const [contentList, setContentList] = useState([]);
-  const [isLoading, setIsLoading] = useState("")
+  // const [isLoading, setIsLoading] = useState("")
 
   const fetchContentList = () => {
-    axios.get(`${API_URL}/posts`).then((res) => {
+    axios.get(`${API_URL}/posts`,{params :{
+      _expand: "user"
+    }})
+    .then((res) => {
       setContentList(res.data);
     });
   };
@@ -20,7 +23,7 @@ const HomePage = () => {
     return contentList.map((val) => {
       return (
         <ContentCard
-          username={val.username}
+          username={val.user.username}
           caption={val.caption}
           imageUrl={val.image_url}
           location={val.location}
@@ -37,7 +40,7 @@ const HomePage = () => {
   } , [])
 
   return (
-    <Box paddingY="8">
+    <Box paddingY="8" left="0" right="0">
       {renderContentList()}
     </Box>
   );

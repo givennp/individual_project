@@ -38,7 +38,8 @@ const ContentCard = ({
     axios
       .get(`${API_URL}/comments`, {
         params: {
-          postId: id,
+          postId : id,
+          _expand: "user",
         },
       })
       .then((res) => {
@@ -48,7 +49,7 @@ const ContentCard = ({
 
   const renderComments = () => {
     return comments.map((val) => {
-      return <Comment content={val.content} username={val.username} />;
+      return <Comment content={val.content} username={val.user.username} />;
     });
   };
 
@@ -194,6 +195,10 @@ const ContentCard = ({
             decoration="underline"
             color="white"
             marginBottom="2"
+            onClick={fetchComments}
+            _hover={{
+              cursor: "pointer"
+            }}
           >
             Comments
           </Text>
@@ -217,13 +222,6 @@ const ContentCard = ({
                 Post
               </Button>
             </Box>
-          ) : null}
-
-          {/* Comment */}
-          {comments.length === 0 ? (
-            <Button onClick={fetchComments} size="xs">
-              Fetch Comments
-            </Button>
           ) : null}
 
           {renderComments()}

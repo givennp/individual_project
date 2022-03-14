@@ -1,9 +1,35 @@
 import { Avatar, defaultStandaloneParam, Text, Box, Center, Icon } from "@chakra-ui/react";
 import {BsThreeDots} from "react-icons/bs"
 import { IconBase } from "react-icons/lib";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
+// 1. Bikin component untuk setiap tab
+// 2. Beri nama state untuk setiap tab
+// 3. If (nama state = nama tab) render component
 
 const ProfilePage = () => {
+  
+  const userSelector = useSelector((state) => state.auth)  
+  const [menuTab, setMenuTab] = useState(userSelector.bio)
+
+  // const buttonHandler = (selector) => {
+  //   if(selector === "bio"){
+  //    setMenuTab(userSelector.bio);
+  //   } else if (selector == "post"){
+      
+  //   } 
+
+  // }
+
+  const renderTabContent = () => {
+    if (menuTab === "bio") {
+      return userSelector.bio
+    } else if (menuTab === "posts") {
+      return "posts"
+    }
+  }
+
     return (
       <Box display="flex" flexDirection="column" color="white" width="70vh">
         <Box display="flex">
@@ -11,14 +37,15 @@ const ProfilePage = () => {
             <Avatar
               margin="25px 25px 25px 0px"
               boxSize="130px"
-              src="https://miro.medium.com/max/1000/1*tv9pIQPhwumDnYBfCoapYg.jpeg"
+              src={userSelector.avatar}
             />
+
             <Box>
               <Text fontSize="32px" fontWeight="bold">
-                Kunyit
+                {userSelector.username}
               </Text>
               <Text color="grey" fontSize="16px">
-                Email123@gmail.com
+                {userSelector.email}
               </Text>
             </Box>
           </Center>
@@ -34,25 +61,27 @@ const ProfilePage = () => {
         >
           <Box display="flex" color="#a6a6a6">
             <Text
-              margin="15px"
+              padding="15px"
               _hover={{
                 color: "white",
                 cursor: "pointer",
               }}
+              onClick={() => setMenuTab("bio")}
             >
-              Home
+              Bio
             </Text>
             <Text
-              margin="15px"
+              padding="15px"
               _hover={{
                 color: "white",
                 cursor: "pointer",
               }}
+              onClick={() => setMenuTab("posts")}
             >
               Posts
             </Text>
             <Text
-              margin="15px"
+              padding="15px"
               _hover={{
                 color: "white",
                 cursor: "pointer",
@@ -61,7 +90,7 @@ const ProfilePage = () => {
               Comments
             </Text>
             <Text
-              margin="15px"
+              padding="15px"
               _hover={{
                 color: "white",
                 cursor: "pointer",
@@ -91,6 +120,7 @@ const ProfilePage = () => {
             />
           </Box>
         </Box>
+        <Box>{renderTabContent()}</Box>
       </Box>
     );
 }
